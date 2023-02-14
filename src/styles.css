@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+
+:root {
+    --primary: #104456;
+    --primary-light: #2a718b;
+    --primary-dark: #092a36;
+    --dark: #000;
+    --grey: #181818;
+    --grey-light: #242424;
+    --red: #e81717;
+    --yellow: #f9a814;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: .4s font-size 0s;
+    font-family: Regular, sans-serif;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #272626;
+    transition: .5s;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: rgba(173, 170, 170, 0.9);
+}
+
+
+*:focus {
+    outline: none !important;
+}
+
+body {
+    /* font-family: Regular, sans-serif; */
+    color: #3f3c3c;
+    font-size: 14px;
+    transition: font-size 0s;
+    overflow-x: hidden;
+    background-color: #f6f6f6;
+}
+p {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+label:not(form label),
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 0;
+}
+
+hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

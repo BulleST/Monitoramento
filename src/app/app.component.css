@@ -1,0 +1,35 @@
+table, tr, td, th {
+    border: 2px black solid;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+.demo-chart {
+    height: 400px;
+  }
+
+  body {
+    margin: 0;
+}
+
+.node {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.status {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.text {
+    position: absolute;
+    bottom: -10px;
+    transform: translateY(100%);
+    color: #fff;
+    font-family: sans-serif;
+    font-weight: 100;
+}
