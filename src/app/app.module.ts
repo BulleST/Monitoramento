@@ -8,6 +8,11 @@ import { HeaderComponent } from './parts/header/header.component';
 import { FooterComponent } from './parts/footer/footer.component';
 import { NavigationComponent } from './parts/navigation/navigation.component';
 import { MonitoramentoComponent } from './pages/monitoramento/monitoramento.component';
+import { DetailsComponent } from './pages/monitoramento/details/details.component';
+import { LoadingComponent } from './parts/loading/loading.component';
+import { NodeFilterPipe } from './utils/node-filter.pipe';
+import { HighlightDirective } from './utils/highlight.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,13 +20,18 @@ import { MonitoramentoComponent } from './pages/monitoramento/monitoramento.comp
     HeaderComponent,
     FooterComponent,
     NavigationComponent,
-    MonitoramentoComponent
+    MonitoramentoComponent,
+    DetailsComponent,
+    LoadingComponent,
+    NodeFilterPipe,
+    HighlightDirective, 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -31,7 +31,8 @@
     "angularCompilerOptions": {
         "types" : [
             "node",
-            "three-css2drender"
+            "three-css2drender",
+            "d3-octree"
         ]
     }
   }

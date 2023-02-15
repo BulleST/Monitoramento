@@ -1,0 +1,25 @@
+<div class="card" [class.active]="animation">
+    <div class="card-header">
+        <p>
+            <span class="mr-2"><fa-icon [icon]="faInfoCircle"></fa-icon></span>
+            Informações 
+        </p>
+        <span class="btn close" (click)="voltar()">
+            <fa-icon [icon]="faTimes"></fa-icon>
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="logo" style="background-image: url(./../../../../assets/img/{{node.img}})"></div>
+        <p><strong>Nome:</strong> {{node.name}} </p>
+        <p><strong>Status: </strong> {{node.status}}  
+        <span class="status" [class.status-ok]=" node.status == 'ok'"
+                             [class.status-warning]=" node.status == 'warning'"
+                             [class.status-danger]=" node.status == 'danger'">
+                <fa-icon *ngIf="node.status == 'ok'" [icon]="faCheckCircle"></fa-icon>
+                <fa-icon *ngIf="node.status == 'warning'" [icon]="faTriangleExclamation"></fa-icon>
+                <fa-icon *ngIf="node.status == 'danger'" [icon]="faTimesCircle"></fa-icon>
+            </span>
+        </p>
+        <p><strong>Reportar para: </strong> {{node.report_to}} </p>
+    </div>
+</div>

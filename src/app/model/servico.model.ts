@@ -8,8 +8,12 @@ export class Node {
     status: string = '';
     type: string = '';
     img: string = '';
-    childLinks: any[] = [];
-    collapsed: boolean = false;
+    vx: number = 0;
+    vy: number = 0;
+    vz: number = 0;
+    x: number = 0;
+    y: number = 0;
+    z: number = 0;
 }
 
 export class Link {

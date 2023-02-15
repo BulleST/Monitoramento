@@ -1,0 +1,89 @@
+.card {
+    background: #1c1c1c;
+    position: fixed;
+    border: none;
+    top: 50px;
+    right: 0;
+    width: 90%;
+    max-width: 250px;
+    transition: .4s;
+    transform: translateX(100%) translateY(50%);
+    border-radius: 4px 0px 0 4px;
+    box-shadow: -1px -1px 3px 0px #0000004d;
+    color: #c3c3c3;
+    background-color: #00000059;
+}
+
+.card.active {
+    transform: translateX(0) translateY(50%);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #121212;
+    background-color: #020202;
+    border-radius: 4px 0px 0 0px !important;
+    color: #c3c3c3;
+    padding: 0 0px 0 15px;
+}
+
+.card-header .btn.close {
+    padding: 8px 10px 6px;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.status {
+    margin: 5px;
+}
+
+.status.status-ok {
+    animation: statusOk 0.8s forwards;
+}
+
+.status.status-warning {
+    animation: statusWarning 0.8s infinite;
+}
+
+.status.status-danger {
+    animation: statusDanger 0.4s infinite;
+}
+.card-body .logo {
+    width: 100px;
+    height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+@keyframes statusOk {
+    from {
+        color: transparent
+    }
+
+    to {
+        color: green
+    }
+}
+
+@keyframes statusWarning {
+    from {
+        color: transparent
+    }
+
+    to {
+        color: orange
+    }
+}
+
+@keyframes statusDanger {
+    from {
+        color: transparent
+    }
+
+    to {
+        color: red
+    }
+}

@@ -1,29 +1,55 @@
 <aside class="navigation" [class.open]="menuOpen">
-    <div class="navigation__toggle-content">
-        <button class="navigation__toggle" (click)="toggleAside()">
-            <span></span><span></span><span></span>
+    <div class="navigation__toggle">
+        <button class="navigation__toggle-btn" (click)="toggleAside()">
+            <fa-icon [icon]="faBars"></fa-icon>
         </button>
-        <div class="navigation__toggle-logo">
-            <img src="assets/img/logo" alt="Logo Santander Caceis">
-        </div>
     </div>
     <div class="navigation__content">
         <div class="navigation__logo">
-            <!-- <h3>Logo</h3> -->
-            <img src="assets/img/logo.png" alt="Logo Santanger Cadeis">
+            <img src="./../../../assets/img/logo-bullest.png" alt="Logo Bullest">
             <hr>
         </div>
         <div class="navigation__links">
             <div class="navigation__item-search">
-                <input type="text"
-                    placeholder="Pesquisar"
-                >
+                <div class="input">
+                    <span class="icon">
+                        <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+                    </span>
+                    <input type="text"
+                        placeholder="Pesquisar"
+                        [(ngModel)]="search"
+                        [class.active]="search.trim().length > 0 && (nodes | nodeFilter: search).length > 0"
+                    >
+                    <!-- <button>OK</button> -->
+                </div>
+                <div class="suggestion" [class.active]="search.trim().length > 0 && (nodes | nodeFilter: search).length > 0">
+                  <div>
+                    <p *ngFor="let node of nodes | nodeFilter: search" 
+                            (click)="focusNode(node)" 
+                            appHighlight 
+                            [searchedWord]="search" [content]="node.name"  
+                            [classToApply]="'font-weight-bold'" [setTitle]="true" >
+                        {{node.name}}
+                        <span>selecionar</span>
+                    </p>
+                  </div>
+                </div>
             </div>
-            <a class="navigation__links-item">
+            <a class="navigation__links-item" [routerLink]="['monitoramento']">
                 <span class="navigation__item-icon">
+                    <fa-icon [icon]="faSolarPanel"></fa-icon>
                 </span>
                Monitoramento
             </a>
+        </div>
+        <div class="navigation-user">
+            <span class="icon me-2">
+                <fa-icon [icon]="faUser"></fa-icon>
+            </span>
+            <p>Noemi C. Almeida</p>
+            <button class="btn btn-logout ms-auto">
+                <fa-icon [icon]="faRightFromBracket"></fa-icon>
+            </button>
         </div>
     </div>
 </aside>

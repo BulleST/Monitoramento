@@ -4,11 +4,10 @@ import { Grafico, Node } from './model/servico.model';
 import ForceGraph3D from '3d-force-graph';
 import { GraficoService } from './services/grafico.service';
 import * as THREE from 'three'
-// import SpriteText from 'three-spritetext';
-import {CSS2DRenderer, CSS2DObject} from 'three-css2drender'
-// // @ts-ignore Import module
-// import { CSS2DObject } from 'https://unpkg.com/three/examples/jsm/renderers/CSS2DRenderer.js';
-// import * as $ from 'jquery';
+import SpriteText from 'three-spritetext';
+import {CSS2DRenderer, CSS2DObject} from 'three-css2drender-types';
+import * as $ from 'jquery';
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -103,7 +102,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     selectedNode(node: any) {
-        this.graficoService.nodeSelected.next(node);
+        this.graficoService.setObject(node);
     }
     
 }

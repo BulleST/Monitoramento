@@ -1,1 +1,30 @@
-<p>monitoramento works!</p>
+<div class="monitoramento">
+    <div id="3d-graph"></div>
+    <app-loading *ngIf="loading"></app-loading>
+    <router-outlet></router-outlet>
+    <div class="logo">
+        <img src="./../../../assets/img/logo-st.png" alt="Logo Bullest">
+    </div>
+    <div class="critico">
+        <p>Estado crítico</p>
+        <div class="status status-danger">
+            <span></span>
+            <p *ngFor="let item of dataStatusDanger">{{item.name}}</p>
+        </div>
+    </div>
+    <div class="legenda"  *ngIf="!loading">
+        <p>Legenda</p>
+        <div class="status status-ok">
+            <span></span>
+            <p>Ok</p>
+        </div>
+        <div class="status status-warning">
+            <span></span>
+            <p>Pausado por dependencias</p>
+        </div>
+        <div class="status status-danger">
+            <span></span>
+            <p>Parado</p>
+        </div>
+    </div>
+</div>
