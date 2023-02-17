@@ -1,3 +1,14 @@
+
+# Para a publicação
+
+### ng build --base-href "https://bullest.github.io/Monitoramento/"
+### npx angular-cli-ghpages --dir=dist/monitoramento
+
+
+# Referencias 
+https://www.c-sharpcorner.com/blogs/a-guide-on-how-to-deploy-angular-applications-to-github-pages#:~:text=To%20deploy%20an%20Angular%20application%20to%20GitHub%20Pages%20you%20have,be%20deployed%20using%20GitHub%20Pages.
+
+
 # Monitoramento
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.6.

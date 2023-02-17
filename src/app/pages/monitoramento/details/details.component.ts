@@ -4,11 +4,12 @@ import { faCheckCircle, faInfo, faInfoCircle, faTimes, faTimesCircle, faTriangle
 import { Node } from 'src/app/model/servico.model';
 import { GraficoService } from 'src/app/services/grafico.service';
 import { Crypto } from 'src/app/utils/crypto';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-details',
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.css']
+    selector: 'app-details',
+    templateUrl: './details.component.html',
+    styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
     faTimes = faTimes;
@@ -18,12 +19,15 @@ export class DetailsComponent implements OnInit {
     faInfoCircle = faInfoCircle;
     animation = false;
     node: Node = new Node;
+    origin: string = '';
     constructor(
         private crypto: Crypto,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private graficoService: GraficoService,
     ) {
+
+        this.origin = environment.originUrl;
         this.node = this.graficoService.object as Node;
         activatedRoute.params.subscribe(p => {
             if (p['id'] && this.crypto.decrypt(p['id'])) {
@@ -32,6 +36,9 @@ export class DetailsComponent implements OnInit {
                         this.voltar();
                     } else {
                         this.node = res;
+                        this.node.dependents = this.node.dependents ?? [];
+                        this.node.dependsOn = this.node.dependsOn ?? [];
+                        this.node.statusItems = this.node.statusItems ?? [];
                         setTimeout(() => {
                             this.animation = true;
                         }, 300);
@@ -44,14 +51,21 @@ export class DetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        
+
     }
 
     voltar() {
         this.animation = false;
-        setTimeout(() => {  
+        setTimeout(() => {
             this.router.navigate(['monitoramento']);
         }, 300);
+    }
+
+    selectNode(node: any) {
+        var n = this.graficoService.graficoData.value?.nodes.find(x => x.id == node.id);
+        console.log(n)
+        if (n)
+            this.graficoService.setObject(node);
     }
 
 }

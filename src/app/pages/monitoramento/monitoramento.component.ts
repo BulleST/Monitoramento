@@ -1,89 +1,140 @@
-import { AfterViewChecked, AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import ForceGraph3D from '3d-force-graph';
 import * as THREE from 'three'
-import SpriteText from 'three-spritetext';
-import {CSS2DRenderer, CSS2DObject} from 'three-css2drender-types';
-import * as $ from 'jquery';
-import { Grafico, Node } from 'src/app/model/servico.model';
+import { Grafico, Link, Node } from 'src/app/model/servico.model';
 import { GraficoService } from 'src/app/services/grafico.service';
 import { Router } from '@angular/router';
 import { Crypto } from 'src/app/utils/crypto';
-declare var d3: any;
+import { environment } from 'src/environments/environment';
+import { lastValueFrom } from 'rxjs';
+
 @Component({
-  selector: 'app-monitoramento',
-  templateUrl: './monitoramento.component.html',
-  styleUrls: ['./monitoramento.component.css']
+    selector: 'app-monitoramento',
+    templateUrl: './monitoramento.component.html',
+    styleUrls: ['./monitoramento.component.css']
 })
-export class MonitoramentoComponent implements OnInit, AfterViewInit {
+export class MonitoramentoComponent implements OnInit, AfterViewInit, AfterContentInit {
     graph: any;
     data: Grafico = new Grafico;
     dataStatusDanger: Node[] = [];
     loading = true;
     nodes: any[] = [];
+    origin: string = environment.originUrl;
+
     constructor(
         private graficoService: GraficoService,
         private router: Router,
         private crypto: Crypto,
     ) {
-        this.graficoService.nodeSelected.subscribe(node => {
-            if (!this.loading) {
-                if (node) {
-                    this.selectedNode(node);
-                } else {
-                    this.nodeFocusOut();
-                }
-            }
-        })
     }
+
     ngOnInit(): void {
     }
+
     ngAfterViewInit(): void {
-        this.graficoService.getGrafico().subscribe();
-        this.graficoService.graficoData.subscribe(res => {
-            this.data = res;
-            this.dataStatusDanger = res.nodes.filter(x => x.status == 'danger')
-            this.setGrafico('init');
-            this.loading = false;
+        lastValueFrom(this.graficoService.getGrafico()).then(res => {
+            this.graficoService.graficoData.subscribe(res => {
+                if (res) {
+                    this.data = res;
+                    this.dataStatusDanger = res.nodes.filter(x => x.status == 'danger')
+                    this.setGrafico();
+                    this.loading = false;
+                    this.graficoService.nodeSelected.subscribe(node => {
+                        if (this.loading == false) {
+                            if (node) {
+                                this.selectedNode(node);
+                            } else {
+                                this.nodeFocusOut();
+                            }
+                        }
+                    })
+                }
+            });
         });
     }
 
 
-    @HostListener('window:resize', ['$event'])
-    setGrafico(oi :string){
-        if (!this.loading && window && document.getElementById('3d-graph') ) {
-            this.graph = ForceGraph3D({
-                controlType: 'orbit',
-            });
-            
-            this.graph(document.getElementById('3d-graph') as HTMLElement)
+    ngAfterContentInit(): void {
+    }
+    setGrafico() {
+        let highlightLinks: any[] = [];
+
+        let hoverNode: any = null;
+        let opacity = 0.2;
+
+        this.graph = ForceGraph3D({
+            controlType: 'orbit',
+        })
+        this.graph = this.graph(document.getElementById('3d-graph') as HTMLElement)
             .graphData(this.data)
             .showNavInfo(true)
             .backgroundColor('#ffffff00')
             .width(window.innerWidth)
+            .linkDirectionalArrowLength((link: any) => {
+                var has = highlightLinks.filter(x => x.source.id == link.source.id && x.target.id == link.target.id)
+                return has.length > 0 ? link.target.val/2: link.target.val/5;
+            })
+            .linkDirectionalArrowRelPos(1)
+            .linkCurvature(0.30)
+            .linkDirectionalParticles((link: any) => {
+                var has = highlightLinks.filter(x => x.source.id == link.source.id && x.target.id == link.target.id)
+                return has.length > 0 ? 4 : 0;
+            })
+            .linkDirectionalParticleWidth(4)
+            .linkWidth((link: any) => {
+                var has = highlightLinks.filter(x => x.source.id == link.source.id && x.target.id == link.target.id)
+                return has.length > 0 ? 3 : 1;
+            })
+            .linkColor((link: any) => {
+                var has = highlightLinks.filter(x => x.source.id == link.source.id && x.target.id == link.target.id)
+                return has.length > 0 ? '#3964a3' : '#ffffff5e';
+            })
+            .linkOpacity(opacity)
             .nodeLabel('name')
             // Logo
             .nodeThreeObject((node: any) => {
-                if (!this.nodes.find(x => x.id == node.id)) 
+                if (!this.nodes.find(x => x.id == node.id))
                     this.nodes.push(node)
 
                 const imgTexture = new THREE.TextureLoader()
-                .load(`./assets/img/${node.type}-${node.status}.png`);
-                const material = new THREE.SpriteMaterial({ 
+                    .load(`${this.origin}/assets/img/${node.type}-${node.status}.png`);
+                const material = new THREE.SpriteMaterial({
                     map: imgTexture,
                     fog: true
-                 });
+                });
                 const sprite = new THREE.Sprite(material);
                 sprite.scale.set(node.val, node.val, node.val);
                 return sprite;
             })
-            .linkDirectionalArrowLength(7)
-            .linkDirectionalArrowRelPos(1)
-            .linkCurvature(0.15)
+
             .onNodeClick((node: any) => {
                 this.graficoService.setObject(node);
                 let index = this.nodes.findIndex(x => x.id == node.id);
                 this.nodes.splice(index, 1, node)
-                this.graficoService.nodes.next(this.nodes)
+                this.graficoService.nodes.next(this.nodes);
+            })
+            .onNodeHover((node: any) => {
+                highlightLinks = [];
+                opacity = 0.2;
+                if (node) {
+                    this.data.links.filter((x: any) => x.target.id == node.id || x.source.id == node.id).forEach((link: any) => {
+                        highlightLinks.push(link)
+                    });
+                    hoverNode = node || null;
+                    opacity = 1;
+                }
+
+                this.updateHighlight();
+
+            })
+            .onLinkHover((link: any) => {
+                highlightLinks = [];
+
+                if (link) {
+                    highlightLinks.push(link);
+                }
+
+                this.updateHighlight();
             })
             .onNodeDragEnd((node: any) => {
                 node.fx = node.x;
@@ -96,24 +147,30 @@ export class MonitoramentoComponent implements OnInit, AfterViewInit {
             })
             .onBackgroundClick((event: any) => {
                 this.graficoService.setObject(undefined);
-                
+
             });
-            // this.graph.d3Force('link')?.['distance']((link: any) => {
-            //     let value = (link.source.val*10 + link.target.val*10) / 3;
-            //     return value;
-            // });
+        this.graph.d3Force('link')?.['distance']((link: any) => {
+            let value = (link.source.val * 10 + link.target.val * 10) / 3;
+            return value;
+        });
+        this.graph.zoomToFit(3000, 0, (node: any) => true);
+        this.graficoService.nodes.next(this.nodes)
 
-            
+    }
+    @HostListener('window:resize', ['$event'])
+    updateWidth() {
+        this.graph = this.graph
+            .width(window.innerWidth)
+    }
 
-            this.graph.zoomToFit(3000, 0, (node: any) => true);
-            console.log(this.nodes)
-            this.graficoService.nodes.next(this.nodes)
-        }
-
+    updateHighlight() {
+        this.graph = this.graph
+            .linkOpacity(this.graph.linkOpacity())
+            .linkWidth(this.graph.linkWidth())
+            .linkDirectionalParticles(this.graph.linkDirectionalParticles());
     }
 
     nodeFocus(node: any) {
-        console.log(node)
         const distance = 40;
         const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
         const newPos = node.x || node.y || node.z
@@ -135,7 +192,11 @@ export class MonitoramentoComponent implements OnInit, AfterViewInit {
         this.nodeFocus(node);
         this.router.navigate(['monitoramento', this.crypto.encrypt(node.id)]);
     }
-    
+
+    oi(){
+        console.log(this.graph.graphData())
+    }
+
 }
 
 // Esfera
@@ -149,7 +210,7 @@ export class MonitoramentoComponent implements OnInit, AfterViewInit {
             //     else if (node.status == 'danger') color = '#ff0000';
 
             //     const geometry = new THREE.SphereGeometry( );
-            //     const material = new THREE.MeshBasicMaterial( { 
+            //     const material = new THREE.MeshBasicMaterial( {
             //         color: color
             //     } );
             //     const sphere = new THREE.Mesh( geometry, material );
@@ -200,7 +261,7 @@ export class MonitoramentoComponent implements OnInit, AfterViewInit {
         //     else
         //         color = '#008000';
         //     const geometry = new THREE.SphereGeometry( );
-        //     const material = new THREE.MeshBasicMaterial( { 
+        //     const material = new THREE.MeshBasicMaterial( {
         //         color: color
         //     } );
         //     const sphere = new THREE.Mesh( geometry, material );
@@ -210,7 +271,7 @@ export class MonitoramentoComponent implements OnInit, AfterViewInit {
 
         // Logo
         // .nodeThreeObject((node: any) => {
-        //     const imgTexture = new THREE.TextureLoader().load(`./assets/img/${node.img}`);
+        //     const imgTexture = new THREE.TextureLoader().load(`${this.origin}/assets/img/${node.img}`);
         //     console.log(imgTexture)
         //     const material = new THREE.SpriteMaterial({ map: imgTexture });
         //     const sprite = new THREE.Sprite(material);
@@ -230,5 +291,4 @@ export class MonitoramentoComponent implements OnInit, AfterViewInit {
         //     sprite.textHeight = 8;
         //     return sprite;
         // })
-        
-        
+

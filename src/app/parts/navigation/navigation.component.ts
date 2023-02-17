@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightFromBracket, faBars, faMagnifyingGlass,faRightFromBracket,faSolarPanel } from '@fortawesome/free-solid-svg-icons';
 import { GraficoService } from 'src/app/services/grafico.service';
 import { Crypto } from 'src/app/utils/crypto';
 import { Header } from 'src/app/utils/header';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-navigation',
@@ -22,12 +23,17 @@ export class NavigationComponent implements OnInit {
     search: string = '';
     nodes: any[] = [];
 
+    origin: string = '';
+
     constructor(
         private header: Header,
         private graficoService: GraficoService,
         private router: Router,
         private crypto: Crypto,
     ) {
+
+        this.origin = environment.originUrl;
+
         this.menuOpen = this.header.aside;
         this.header.open.subscribe(res => this.menuOpen = res);
         this.graficoService.nodes.subscribe(res => {

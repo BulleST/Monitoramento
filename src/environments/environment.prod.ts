@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  originUrl: window.location.origin + '/Monitoramento',
 };

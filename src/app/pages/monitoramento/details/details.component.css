@@ -2,20 +2,22 @@
     background: #1c1c1c;
     position: fixed;
     border: none;
-    top: 50px;
+    top: 0;
     right: 0;
     width: 90%;
-    max-width: 250px;
+    max-width: 400px;
+    height: 100%;
     transition: .4s;
-    transform: translateX(100%) translateY(50%);
-    border-radius: 4px 0px 0 4px;
-    box-shadow: -1px -1px 3px 0px #0000004d;
-    color: #c3c3c3;
-    background-color: #00000059;
+    transform: translateX(100%);
+    color: var(--text-light);
+    background-color: #121212;
+    overflow: auto;
+    box-shadow: -2px -2px 4px #00000057;
+    border-radius: 0;
 }
 
 .card.active {
-    transform: translateX(0) translateY(50%);
+    transform: translateX(0);
 }
 
 .card-header {
@@ -23,10 +25,19 @@
     align-items: center;
     justify-content: space-between;
     background-color: #121212;
-    background-color: #020202;
-    border-radius: 4px 0px 0 0px !important;
-    color: #c3c3c3;
-    padding: 0 0px 0 15px;
+    background-color: var(--blue);
+    border-radius: 0 !important;
+    color: #ffffff;
+    padding: 0px 5px 0px 15px;
+    font-size: 16px;
+    text-transform: uppercase;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+.card-header p {
+    font-size: 12px;
+    filter: drop-shadow(2px 4px 6px black);
+    text-shadow: 2px 2px 4px #00000012;
 }
 
 .card-header .btn.close {
@@ -34,6 +45,31 @@
     display: flex;
     align-items: center;
     line-height: 1;
+    color: #ffffff;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+.card-body {
+    box-shadow: 0px 10px 10px 2px #2c2a2a85 inset;
+    padding: 10px 35px;
+}
+
+.card-body .logo {
+    margin: 10px 0;
+}
+
+.card-body .logo img {
+    height: auto;
+    width: 170px;
+    max-width: 100%;
+}
+
+.card-status {
+    border-radius: 5px;
+    background-color: #202020;
+    margin: 10px 0;
+    padding: 5px 10px;
+    width: 100%;
 }
 
 .status {
@@ -51,13 +87,13 @@
 .status.status-danger {
     animation: statusDanger 0.4s infinite;
 }
-.card-body .logo {
-    width: 100px;
-    height: 100px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+
+.table {
+    border-radius: 5px;
+    overflow: hidden;
+    color: var(--text-light);
 }
+
 @keyframes statusOk {
     from {
         color: transparent

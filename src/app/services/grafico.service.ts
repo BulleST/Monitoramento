@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Grafico, Node } from '../model/servico.model';
 import { Crypto } from '../utils/crypto';
 
@@ -9,7 +10,7 @@ import { Crypto } from '../utils/crypto';
 })
 export class GraficoService {
 
-    graficoData: BehaviorSubject<Grafico> = new BehaviorSubject<Grafico>(new Grafico);
+    graficoData: BehaviorSubject<Grafico | undefined> = new BehaviorSubject<Grafico | undefined>(undefined);
     nodes: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
 	nodeObjectSelected: BehaviorSubject<Node | undefined>;
@@ -37,7 +38,7 @@ export class GraficoService {
     }
 
     getGrafico() {
-        return this.http.get<Grafico>('/assets/data.json')
+        return this.http.get<Grafico>( environment.originUrl + '/assets/data.json')
         .pipe(map(grafico => {
             this.graficoData.next(grafico)
             return grafico;

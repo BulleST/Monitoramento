@@ -3,28 +3,32 @@
     <app-loading *ngIf="loading"></app-loading>
     <router-outlet></router-outlet>
     <div class="logo">
-        <img src="./../../../assets/img/logo-st.png" alt="Logo Bullest">
+        <img src="{{origin}}/assets/img/logo-st.png" alt="Logo Bullest">
     </div>
-    <div class="critico">
-        <p>Estado crítico</p>
-        <div class="status status-danger">
-            <span></span>
-            <p *ngFor="let item of dataStatusDanger">{{item.name}}</p>
+    <aside class="legenda">
+        <div class="legenda-critico">
+            <p>Estado crítico</p>
+            <div class="status status-danger">
+                <span></span>
+                <p *ngFor="let item of dataStatusDanger" (click)="selectedNode(item)">{{item.name}}</p>
+            </div>
         </div>
-    </div>
-    <div class="legenda"  *ngIf="!loading">
-        <p>Legenda</p>
-        <div class="status status-ok">
-            <span></span>
-            <p>Ok</p>
+        <div class="legenda-status" >
+            <p>Legenda</p>
+            <div class="status status-ok">
+                <span></span>
+                <p>Ok</p>
+            </div>
+            <div class="status status-warning">
+                <span></span>
+                <p>Pausado por dependencias</p>
+            </div>
+            <div class="status status-danger">
+                <span></span>
+                <p>Parado</p>
+            </div>
+
+            <p (click)="oi()">aaaaaaaa</p>
         </div>
-        <div class="status status-warning">
-            <span></span>
-            <p>Pausado por dependencias</p>
-        </div>
-        <div class="status status-danger">
-            <span></span>
-            <p>Parado</p>
-        </div>
-    </div>
+    </aside>
 </div>

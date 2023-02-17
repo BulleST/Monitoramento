@@ -20,8 +20,6 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     NavigationComponent,
-    MonitoramentoComponent,
-    DetailsComponent,
     LoadingComponent,
     NodeFilterPipe,
     HighlightDirective, 

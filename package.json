@@ -25,6 +25,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "3d-force-graph": "^1.71.1",
     "angular-animations": "^0.11.0",
+    "angular-cli-ghpages": "^1.0.5",
     "bootstrap": "^5.2.3",
     "crypto-js": "^4.1.1",
     "d3-octree": "^1.0.2",

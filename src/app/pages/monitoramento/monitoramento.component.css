@@ -21,18 +21,29 @@
     width: 190px;
 }
 
-.legenda,
-.critico {
+.legenda{
     position: absolute;
     bottom: 0;
-    right: 0;
-    transform: translateX(100%);
-    background: #00000059;
-    border-radius: 7px 0 0 0;
-    padding: 15px;
+    left: 0;
+    transform: translateX(calc(-100% - 10px));
     color: #c5c5c5;
     animation: legenda 0.8s forwards .5s;
 }
+
+.legenda-critico,
+.legenda-status {
+    background: #00000059;
+    padding: 15px;
+    margin: 10px 10px;
+    border-radius: 7px;
+
+}
+.legenda-critico {
+    max-height: 500px;
+    max-width: 300px;
+    overflow-y: auto;
+}
+
 
 .status {
     display: flex;
@@ -61,32 +72,9 @@
     background-color: #ff0000;
 }
 
-.critico {
-    left: 0;
-    right: unset;
-    transform: translateX(-100%);
-    border-radius: 0px 7px 0 0;
-    animation: statusDanger 0.8s forwards .5s;
-    max-height: 500px;
-    /* height: 100%; */
-    max-width: 300px;
-    /* width: 100%; */
-    overflow-y: auto;
-}
-
-@keyframes statusDanger {
-    from {
-        transform: translateX(-100%);
-    }
-
-    to {
-        transform: translateX(0%);
-    }
-}
-
 @keyframes legenda {
     from {
-        transform: translateX(100%);
+        transform: translateX(-100%);
     }
 
     to {

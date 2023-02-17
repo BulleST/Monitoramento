@@ -12,7 +12,6 @@ export class NodeFilterPipe implements PipeTransform {
    * @returns list of elements filtered by search text or []
    */
   transform(items: any[], searchText: string): any[] {
-    console.log(items)
     if (!items) {
       return [];
     }

@@ -8,6 +8,9 @@ export class Node {
     status: string = '';
     type: string = '';
     img: string = '';
+    dependsOn: Node[] = [];
+    dependents: Node[] = [];
+    statusItems: StatusItem[] = [];
     vx: number = 0;
     vy: number = 0;
     vz: number = 0;
@@ -19,12 +22,17 @@ export class Node {
 export class Link {
     source: number = 0;
     target: number = 0;
-    childLinks: any[] = [];
 }
 
 export class Grafico {
     nodes: Node[] = [];
     links: Link[] = [];
+}
+
+export class StatusItem {
+    item: string = '';
+    status: string = '';
+    message: string = '';
 }
 // export class Servico {
 //     id: number = 0;
