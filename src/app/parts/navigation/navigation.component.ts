@@ -1,7 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { faWindows } from '@fortawesome/free-brands-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faArrowRightFromBracket, faBars, faMagnifyingGlass,faRightFromBracket,faSolarPanel } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, 
+    faBars, 
+    faDatabase, 
+    faDesktop, 
+    faMagnifyingGlass,
+    faRightFromBracket,
+    faRobot,
+    faSolarPanel,
+    faFloppyDisk, 
+    faGear} from '@fortawesome/free-solid-svg-icons';
 import { GraficoService } from 'src/app/services/grafico.service';
 import { Crypto } from 'src/app/utils/crypto';
 import { Header } from 'src/app/utils/header';
@@ -18,12 +28,16 @@ export class NavigationComponent implements OnInit {
     faSolarPanel = faSolarPanel;
     faUser = faUser;
     faRightFromBracket = faArrowRightFromBracket;
+    faRobot = faRobot;
+    faDesktop = faDesktop;
+    faDatabase = faDatabase;
+    faFloppyDisk = faFloppyDisk;
+    faWindowAlt = faWindows;
+    faGear = faGear;
     menuOpen: boolean = false;
-
+    origin: string = environment.originUrl;
     search: string = '';
     nodes: any[] = [];
-
-    origin: string = '';
 
     constructor(
         private header: Header,
@@ -31,9 +45,6 @@ export class NavigationComponent implements OnInit {
         private router: Router,
         private crypto: Crypto,
     ) {
-
-        this.origin = environment.originUrl;
-
         this.menuOpen = this.header.aside;
         this.header.open.subscribe(res => this.menuOpen = res);
         this.graficoService.nodes.subscribe(res => {
@@ -50,6 +61,7 @@ export class NavigationComponent implements OnInit {
 
     focusNode(node: any) {
         this.graficoService.setObject(node);
+        this.header.toggleMenuAside();
         this.router.navigate(['monitoramento', this.crypto.encrypt(node.id)]);
     }
 }

@@ -27,8 +27,10 @@
                     <p *ngFor="let node of nodes | nodeFilter: search" 
                             (click)="focusNode(node)" 
                             appHighlight 
-                            [searchedWord]="search" [content]="node.name"  
-                            [classToApply]="'font-weight-bold'" [setTitle]="true" >
+                            [searchedWord]="search" 
+                            [content]="node.name"  
+                            [classToApply]="'font-weight-bold'" 
+                            [setTitle]="true" >
                         {{node.name}}
                         <span>selecionar</span>
                     </p>
@@ -37,9 +39,47 @@
             </div>
             <a class="navigation__links-item" [routerLink]="['monitoramento']">
                 <span class="navigation__item-icon">
-                    <fa-icon [icon]="faSolarPanel"></fa-icon>
+                    <!-- <i class="fa-thin fa-solar-system"></i> -->
+                    <img src="{{origin}}/assets/img/graph.png" alt="">
+                    <!-- <fa-icon [icon]="faSolarPanel"></fa-icon> -->
                 </span>
                Monitoramento
+            </a>
+            <a class="navigation__links-item" [routerLink]="['database']">
+                <span class="navigation__item-icon">
+                    <fa-icon [icon]="faDatabase"></fa-icon>
+                </span>
+               Banco de Dados
+            </a>
+            <a class="navigation__links-item" [routerLink]="['services']">
+                <span class="navigation__item-icon">
+                    <fa-icon [icon]="faGear"></fa-icon>
+                </span>
+               Serviços
+            </a>
+            <a class="navigation__links-item" [routerLink]="['rpas']">
+                <span class="navigation__item-icon">
+                    <fa-icon [icon]="faRobot"></fa-icon>
+                </span>
+               RPAs
+            </a>
+            <a class="navigation__links-item" [routerLink]="['webservices']">
+                <span class="navigation__item-icon">
+                    <fa-icon [icon]="faDesktop"></fa-icon>
+                </span>
+               Web Services
+            </a>
+            <a class="navigation__links-item" [routerLink]="['vms']">
+                <span class="navigation__item-icon">
+                    <fa-icon [icon]="faWindowAlt"></fa-icon>
+                </span>
+                VMs
+            </a>
+            <a class="navigation__links-item" [routerLink]="['disks']">
+                <span class="navigation__item-icon">
+                    <fa-icon [icon]="faFloppyDisk"></fa-icon>
+                </span>
+                Discos de Rede
             </a>
         </div>
         <div class="navigation-user">

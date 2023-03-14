@@ -4,9 +4,9 @@ import { DetailsComponent } from './details/details.component';
 import { MonitoramentoComponent } from './monitoramento.component';
 
 const routes: Routes = [
-    { path: 'monitoramento', component: MonitoramentoComponent, children: [
+    { path: '', component: MonitoramentoComponent, children: [
         { path: ':id', component: DetailsComponent }
-    ] }
+    ] },
 ];
 
 @NgModule({

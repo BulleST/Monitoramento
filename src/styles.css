@@ -1,3 +1,19 @@
+@font-face {
+    font-family: Regular;
+    src: url(./assets/fonts/OpenSans/OpenSans-Regular.ttf)
+}
+
+@font-face {
+    font-family: Bold;
+    src: url(./assets/fonts/OpenSans/OpenSans-Bold.ttf)
+}
+
+@font-face {
+    font-family: Light;
+    src: url(./assets/fonts/OpenSans/OpenSans-Light.ttf)
+}
+
+
 :root {
     --primary: #104456;
     --primary-light: #2a718b;
@@ -38,12 +54,13 @@
 }
 
 body {
-    /* font-family: Regular, sans-serif; */
+    font-family: Light, sans-serif;
     color: #3f3c3c;
     font-size: 14px;
     transition: font-size 0s;
     overflow-x: hidden;
     background-color: #f6f6f6;
+    background-color: #141414;
 }
 
 p {
@@ -80,4 +97,11 @@ hr {
 
 .bg-blue {
     background-color: var(--blue) !important;
+}
+
+.card-details .popover {
+    max-width: 560px!important;
+}
+.card-details {
+    
 }

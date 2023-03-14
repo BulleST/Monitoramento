@@ -7,12 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './parts/header/header.component';
 import { FooterComponent } from './parts/footer/footer.component';
 import { NavigationComponent } from './parts/navigation/navigation.component';
-import { MonitoramentoComponent } from './pages/monitoramento/monitoramento.component';
-import { DetailsComponent } from './pages/monitoramento/details/details.component';
-import { LoadingComponent } from './parts/loading/loading.component';
 import { NodeFilterPipe } from './utils/node-filter.pipe';
 import { HighlightDirective } from './utils/highlight.pipe';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +18,6 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     NavigationComponent,
-    LoadingComponent,
     NodeFilterPipe,
     HighlightDirective, 
   ],
@@ -30,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FontAwesomeModule,
     FormsModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

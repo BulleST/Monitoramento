@@ -11,7 +11,7 @@
     transform: translateX(100%);
     color: var(--text-light);
     background-color: #121212;
-    overflow: auto;
+    /* overflow: hidden; */
     box-shadow: -2px -2px 4px #00000057;
     border-radius: 0;
 }
@@ -50,8 +50,8 @@
 }
 
 .card-body {
-    box-shadow: 0px 10px 10px 2px #2c2a2a85 inset;
-    padding: 10px 35px;
+    padding: 10px 3vw;
+    overflow: auto;
 }
 
 .card-body .logo {
@@ -84,7 +84,7 @@
     animation: statusWarning 0.8s infinite;
 }
 
-.status.status-danger {
+.status.status-down {
     animation: statusDanger 0.4s infinite;
 }
 
@@ -122,4 +122,36 @@
     to {
         color: red
     }
+}
+
+@media (max-width: 800px) {
+    .card {
+        height: 40vh !important;
+        bottom: 0;
+        top: auto !important;
+        z-index: 2;
+    }
+
+    .card-body {
+        height: 100%;
+        overflow: auto;
+    }
+
+    .card-body .logo img {
+        height: 15px !important;
+        width: auto !important;
+        max-width: 100% !important;
+    }
+
+    .card-body br {
+        display: none;
+    }
+
+    .card-body h5 {
+        font-size: 100%;
+    }
+}
+
+.tr-selectable {
+    cursor: pointer;
 }

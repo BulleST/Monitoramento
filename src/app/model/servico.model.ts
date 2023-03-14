@@ -3,11 +3,11 @@
 export class Node {
     id: number = 0;
     name: string = '';
-    report_to: string = '';
+    report_To: string = '';
     val: number = 0;
     status: string = '';
-    type: string = '';
-    img: string = '';
+    type: ServicoTipo = 0;
+    sub_Type?: ServicoSubtipo;
     dependsOn: Node[] = [];
     dependents: Node[] = [];
     statusItems: StatusItem[] = [];
@@ -27,41 +27,56 @@ export class Link {
 export class Grafico {
     nodes: Node[] = [];
     links: Link[] = [];
+    
+    constructor(_nodes: Node[] = []) {
+        this.nodes = _nodes;
+        this.links = [];
+        // source depende do target
+        _nodes.map(source => {
+            source.dependsOn.forEach(target => {
+                this.links.push({
+                    source: source.id,
+                    target: target.id, 
+                });
+            });
+        });
+    }
 }
 
 export class StatusItem {
+    bg: string = '';
+    checked_On: Date = new Date;
     item: string = '';
     status: string = '';
     message: string = '';
 }
-// export class Servico {
-//     id: number = 0;
-//     report_To: string = '';
-//     name: string = '';
-//     status: ServicoStatus = ServicoStatus.unknown;
-//     tipo = ServicoTipo.unknown;
-// }
 
-// export class Grafico {
-//     servico: Servico = new Servico;
-//     dependentes?: Grafico[];
-// }
+export enum ServicoStatus {
+    unknown,
+    ok,
+    warning,
+    down,
+}
 
-// export enum ServicoStatus {
-//     unknown,
-//     ok,
-//     danger,
-//     warning,
-// }
+export enum ServicoSubtipo {
+    unknown = 0,
+    sqlserver = 1,
+    oracle = 2,
+    postgres = 3,
+}
 
-// export enum ServicoTipo {
-//     unknown,
-//     dataBase,
-//     api,
-//     servicos,
-//     disco,
-//     aplicacao,
-// }
+export enum ServicoTipo {
+    unknown = 0,
+    database = 1,
+    disk = 2,
+    sites = 3,
+    tasker = 4,
+    webservice = 5,
+    connectivity = 6,
+    vm = 7,
+    rpa = 8,
+    apis = 9,
+}
 
 // var cotPR: Servico = {
 //     id: 1,
