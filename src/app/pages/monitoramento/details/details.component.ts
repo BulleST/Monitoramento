@@ -1,9 +1,8 @@
-import ForceGraph3D from '3d-force-graph';
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCheckCircle, faInfo, faInfoCircle, faMagnifyingGlassPlus, faTimes, faTimesCircle, faTriangleExclamation, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { lastValueFrom, Subscription } from 'rxjs';
-import { Node } from 'src/app/model/servico.model';
+import { Node, ServicoSubtipo } from 'src/app/model/servico.model';
 import { GraficoService } from 'src/app/services/grafico.service';
 import { Crypto } from 'src/app/utils/crypto';
 import { environment } from 'src/environments/environment';
@@ -24,7 +23,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     node: Node = new Node;
     origin: string = '';
     nodeSelectedSubs: Subscription;
-
+    logo?: string;
     constructor(
         private crypto: Crypto,
         private router: Router,
@@ -42,6 +41,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     this.node.dependents = this.node.dependents ?? [];
                     this.node.dependsOn = this.node.dependsOn ?? [];
                     this.node.statusItems = this.node.statusItems ?? [];
+                    this.logo = this.node.sub_Type ? ServicoSubtipo[this.node.sub_Type] + '.png' : undefined;
                     setTimeout(() => {
                         this.animation = true;
                     }, 300);
@@ -82,15 +82,5 @@ export class DetailsComponent implements OnInit, OnDestroy {
             }, 300);
         }
     }
-	toggleMessage(popover: any, content: string) {
-        console.log(popover.isOpen())
-        console.log(content)
-		if (popover.isOpen()) {
-			popover.close();
-		} else {
-			var oi = popover.open({ content });
-            console.log(oi)
-		}
-	}
 
 }

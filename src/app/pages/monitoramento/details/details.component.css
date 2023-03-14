@@ -50,8 +50,10 @@
 }
 
 .card-body {
-    padding: 10px 3vw;
-    overflow: auto;
+    padding: 10px 0vw;
+    overflow: hidden;
+    width: 90%;
+    margin: auto;
 }
 
 .card-body .logo {
@@ -61,6 +63,7 @@
 .card-body .logo img {
     height: auto;
     width: 170px;
+    max-height: 170px;
     max-width: 100%;
 }
 
@@ -90,7 +93,7 @@
 
 .table {
     border-radius: 5px;
-    overflow: hidden;
+    vertical-align: middle;
     color: var(--text-light);
 }
 
@@ -154,4 +157,11 @@
 
 .tr-selectable {
     cursor: pointer;
+}
+
+.card-details .table {
+    width: 100%;
+    /* max-width: 100%; */
+    /* overflow: scroll; */
+    /* width: max-content; */
 }

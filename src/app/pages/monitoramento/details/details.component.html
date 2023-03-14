@@ -11,111 +11,117 @@
         <br>
         <h5>{{node.name}} </h5>
         <div class="logo">
-            <!-- <img src="{{origin}}/assets/img/{{node.img}}" alt="{{node.img}}"> -->
+            <img *ngIf="logo" src="{{origin}}/assets/img/nodes-subtypes-icon/{{logo}}" alt="{{logo}}">
         </div>
         <p *ngIf="node.report_To"><strong>Report to: </strong> {{node.report_To}} </p>
 
-        <table class="table table-dark"*ngIf="node.statusItems">
-            <thead>
-                <tr>
-                    <th class="bg-dark">BG</th>
-                    <th class="bg-dark">Checked On</th>
-                    <th class="bg-dark">Item</th>
-                    <th class="bg-dark">Status</th>
-                    <th class="bg-dark"></th>
-                </tr>
-            </thead>
-            <tbody *ngIf="node.statusItems.length > 0;">
-                <tr *ngFor="let item of node.statusItems; index as i">
-                    <td>{{item.bg}}</td>
-                    <td>{{item.checked_On}}</td>
-                    <td>{{item.item}}</td>
-                    <td>
-                        <div class="d-flex align-items-center">
+        <div class="table-responsive w-100 mb-4">
+            <table class="table table-dark mb-0"*ngIf="node.statusItems">
+                <thead>
+                    <tr>
+                        <th class="bg-blue">BG</th>
+                        <th class="bg-blue">Checked On</th>
+                        <th class="bg-blue">Item</th>
+                        <th class="bg-blue">Status</th>
+                        <th class="bg-blue"></th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="node.statusItems.length > 0;">
+                    <tr *ngFor="let item of node.statusItems; index as i">
+                        <td>{{item.bg}}</td>
+                        <td>{{item.checked_On}}</td>
+                        <td>{{item.item}}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {{item.status | lowercase}} 
+                                <span class="status" [class.status-ok]="(item.status | lowercase) == 'ok'"
+                                    [class.status-warning]="(item.status | lowercase) == 'warning'"
+                                    [class.status-down]="(item.status | lowercase) == 'down'">
+                                    <fa-icon *ngIf="(item.status | lowercase) == 'ok'" [icon]="faCheckCircle"></fa-icon>
+                                    <fa-icon *ngIf="(item.status | lowercase) == 'warning'" [icon]="faTriangleExclamation"></fa-icon>
+                                    <fa-icon *ngIf="(item.status | lowercase) == 'down'" [icon]="faTimesCircle"></fa-icon>
+                                </span>
+                            </div>
+                        </td>
+                        <td
+                                [ngbPopover]="popContent"
+                                [disablePopover]="!item.message"
+                                [popoverTitle]="'Message'"
+                                triggers="mouseenter:mouseleave"
+                                #p="ngbPopover"
+                                [autoClose]="false"
+                                [positionTarget]="'adaptive'"
+                                placement="left"
+                                (mouseenter)="p.open({content: item.message})">
+                            <span *ngIf="item.message" class="p-1">
+                                <fa-icon [icon]="faMagnifyingGlassPlus"></fa-icon>
+                            </span>
+                            <!-- triggers="mouseenter:mouseleave" -->
+                        </td>
+                    </tr>
+                </tbody>
+                <ng-container *ngIf="node.statusItems.length == 0"
+                    [ngTemplateOutlet]="noRegister" 
+                    [ngTemplateOutletContext]="{colspan:5}">
+                </ng-container>
+            </table>
+        </div>
+        <div class="table-responsive w-100 mb-4">
+            <table class="table table-dark mb-0">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="bg-blue">Dependents</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="node.dependents.length > 0;">
+                    <tr *ngFor="let item of node.dependents" (click)="selectNode(item)" class="tr-selectable">
+                        <td>{{item.name}}</td>
+                        <td class="text-right text-end"> 
                             {{item.status | lowercase}} 
                             <span class="status" [class.status-ok]="(item.status | lowercase) == 'ok'"
-                                [class.status-warning]="(item.status | lowercase) == 'warning'"
-                                [class.status-down]="(item.status | lowercase) == 'down'">
+                                  [class.status-warning]="(item.status | lowercase) == 'warning'"
+                                  [class.status-down]="(item.status | lowercase) == 'down'">
                                 <fa-icon *ngIf="(item.status | lowercase) == 'ok'" [icon]="faCheckCircle"></fa-icon>
                                 <fa-icon *ngIf="(item.status | lowercase) == 'warning'" [icon]="faTriangleExclamation"></fa-icon>
                                 <fa-icon *ngIf="(item.status | lowercase) == 'down'" [icon]="faTimesCircle"></fa-icon>
                             </span>
-                        </div>
-                    </td>
-                    <td>
-                        <button *ngIf="item.message"
-                            class="btn btn-dark"
-                            [ngbPopover]="popContent"
-                            [popoverTitle]="'Message'"
-                            triggers="manual"
-                            #p="ngbPopover"
-                            [autoClose]="false"
-                            placement="start"
-                            (click)="p.open({content: item.message})">
-                            <fa-icon [icon]="faMagnifyingGlassPlus"></fa-icon>
-                        </button>
-                        <!-- triggers="mouseenter:mouseleave" -->
-                    </td>
-                </tr>
-            </tbody>
-            <ng-container *ngIf="node.statusItems.length == 0"
-                [ngTemplateOutlet]="noRegister" 
-                [ngTemplateOutletContext]="{colspan:5}">
-            </ng-container>
-        </table>
-        <br>
-        <table class="table table-dark">
-            <thead>
-                <tr>
-                    <th colspan="2" class="bg-blue">Dependents</th>
-                </tr>
-            </thead>
-            <tbody *ngIf="node.dependents.length > 0;">
-                <tr *ngFor="let item of node.dependents" (click)="selectNode(item)" class="tr-selectable">
-                    <td>{{item.name}}</td>
-                    <td class="text-right text-end"> 
-                        {{item.status | lowercase}} 
-                        <span class="status" [class.status-ok]="(item.status | lowercase) == 'ok'"
-                              [class.status-warning]="(item.status | lowercase) == 'warning'"
-                              [class.status-down]="(item.status | lowercase) == 'down'">
-                            <fa-icon *ngIf="(item.status | lowercase) == 'ok'" [icon]="faCheckCircle"></fa-icon>
-                            <fa-icon *ngIf="(item.status | lowercase) == 'warning'" [icon]="faTriangleExclamation"></fa-icon>
-                            <fa-icon *ngIf="(item.status | lowercase) == 'down'" [icon]="faTimesCircle"></fa-icon>
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-            <ng-container *ngIf="node.statusItems.length == 0"
-                [ngTemplateOutlet]="noRegister" 
-                [ngTemplateOutletContext]="{colspan:2}">
-            </ng-container>
-        </table>
-        <table class="table table-dark">
-            <thead>
-                <tr>
-                    <th colspan="2" class="bg-blue">Depends On</th>
-                </tr>
-            </thead>
-            <tbody *ngIf="node.dependsOn.length > 0">
-                <tr *ngFor="let item of node.dependsOn" (click)="selectNode(item)" class="tr-selectable">
-                    <td>{{item.name}}</td>
-                    <td class="text-right text-end" style="white-space: nowrap"> 
-                        {{item.status  | lowercase}} 
-                        <span class="status" [class.status-ok]="(item.status | lowercase) == 'ok'"
-                              [class.status-warning]="(item.status | lowercase) == 'warning'"
-                              [class.status-down]="(item.status | lowercase) == 'down'">
-                            <fa-icon *ngIf="(item.status | lowercase) == 'ok'" [icon]="faCheckCircle"></fa-icon>
-                            <fa-icon *ngIf="(item.status | lowercase) == 'warning'" [icon]="faTriangleExclamation"></fa-icon>
-                            <fa-icon *ngIf="(item.status | lowercase) == 'down'" [icon]="faTimesCircle"></fa-icon>
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-            <ng-container *ngIf="node.statusItems.length == 0"
-                [ngTemplateOutlet]="noRegister" 
-                [ngTemplateOutletContext]="{colspan:2}">
-            </ng-container>
-        </table>
+                        </td>
+                    </tr>
+                </tbody>
+                <ng-container *ngIf="node.dependents.length == 0"
+                    [ngTemplateOutlet]="noRegister" 
+                    [ngTemplateOutletContext]="{colspan:2}">
+                </ng-container>
+            </table>
+        </div>
+        <div class="table-responsive w-100 mb-4">
+            <table class="table table-dark mb-0">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="bg-blue">Depends On</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="node.dependsOn.length > 0">
+                    <tr *ngFor="let item of node.dependsOn" (click)="selectNode(item)" class="tr-selectable">
+                        <td>{{item.name}}</td>
+                        <td class="text-right text-end" style="white-space: nowrap"> 
+                            {{item.status  | lowercase}} 
+                            <span class="status" [class.status-ok]="(item.status | lowercase) == 'ok'"
+                                  [class.status-warning]="(item.status | lowercase) == 'warning'"
+                                  [class.status-down]="(item.status | lowercase) == 'down'">
+                                <fa-icon *ngIf="(item.status | lowercase) == 'ok'" [icon]="faCheckCircle"></fa-icon>
+                                <fa-icon *ngIf="(item.status | lowercase) == 'warning'" [icon]="faTriangleExclamation"></fa-icon>
+                                <fa-icon *ngIf="(item.status | lowercase) == 'down'" [icon]="faTimesCircle"></fa-icon>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+                <ng-container *ngIf="node.dependsOn.length == 0"
+                    [ngTemplateOutlet]="noRegister" 
+                    [ngTemplateOutletContext]="{colspan:2}">
+                </ng-container>
+            </table>
+        </div>
     </div>
 </div>
 

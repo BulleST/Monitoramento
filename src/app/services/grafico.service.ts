@@ -1,10 +1,7 @@
-import ForceGraph3D, { ForceGraph3DInstance } from '3d-force-graph';
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, HostListener, Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import * as THREE from 'three';
 import { Grafico, Node } from '../model/servico.model';
 import { Crypto } from '../utils/crypto';
 
@@ -23,8 +20,6 @@ export class GraficoService {
     constructor(
         private http: HttpClient,
         private crypto: Crypto,
-        private router: Router,
-        private activatedRoute: ActivatedRoute,
     ) {
         this._nodeSelected = new BehaviorSubject<Node | undefined>(undefined);
         this.nodeSelected = this._nodeSelected.asObservable();
@@ -50,7 +45,6 @@ export class GraficoService {
     }
 
     setObject(value: Node | undefined) {
-        console.log('setObject', value)
         localStorage.setItem('node', this.crypto.encrypt(value) ?? '')
         this._nodeSelected.next(value);
     }

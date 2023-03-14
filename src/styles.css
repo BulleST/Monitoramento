@@ -100,8 +100,37 @@ hr {
 }
 
 .card-details .popover {
-    max-width: 560px!important;
+    max-width: 460px!important;
+    inset: 50% 0 0 auto!important;
+    transform: translate(-14%, -50%)!important;
+    width: 90vw;
+    border: none;
+    background-color: transparent;
+    box-shadow: 2px 2px 2px #00000030;
+    height: 50vh;
+    display: flex;
+    flex-flow: column;
+    padding: 0;
 }
-.card-details {
-    
+.card-details .bs-popover-start .popover-arrow {
+    transform: translate(-1px, 10px)!important;
+    z-index: 999999;
+}
+.card-details .popover.bs-popover-start>.popover-arrow::before, .card-details .popover.bs-popover-start>.popover-arrow::after {
+    border-left-color: #3964a3!important;
+}
+.card-details .popover-header {
+    background-color: #3964a3;
+    font-size: 14px;
+    padding: 10px 10px;
+    border: none;
+}
+.card-details .popover-body {
+    max-height: 70vh;
+    overflow: auto;
+    height: 100%;
+    background-color: #121212;
+    color: #fff;
+    padding: 10px 10px;
+    font-size: 13px;
 }

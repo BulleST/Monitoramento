@@ -44,6 +44,7 @@ export class MonitoramentoComponent implements OnInit, AfterViewInit {
         this.data = await lastValueFrom(this.graficoService.getGrafico());
         this.dataStatusDanger = this.data.nodes.filter(x => x.status == 'danger');
         this.buildGrafico(this.data); 
+        this.updateNodesList();
         var nodeSelected = this.graficoService.nodeSelectedObject;
         this.graficoService.nodeSelected.subscribe(res => {
             this.updateNodesList();
@@ -52,7 +53,7 @@ export class MonitoramentoComponent implements OnInit, AfterViewInit {
                 this.graph = this.graph.enableNodeDrag(false);
                 setTimeout(() => {
                     this.nodeFocus(nodeSelected);
-                }, 500);
+                }, 600);
             } else {
                 this.nodeFocusOut();
                 this.graph = this.graph.enableNodeDrag(true);
@@ -108,7 +109,7 @@ export class MonitoramentoComponent implements OnInit, AfterViewInit {
                 sprite.scale.set(node.val, node.val, node.val);
                 return sprite;
             })
-            .onNodeClick((node: any, a) => {
+            .onNodeClick((node: any) => {
                 this.updateNodesList();
                 this.selectNode(node);
             })
